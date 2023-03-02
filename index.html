@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="iso-8859-1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Valentin Schwind">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/style.css" />
+	<link rel="image_src" type="image/jpeg" href="http://scm.uvrg.org/img/logo.jpg" />
+	<meta property="og:image" content="http://scm.uvrg.org/img/logo.jpg">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<meta property="og:site_name" content="Participation Confirmation Generator">
+	<title>Participation Confirmation Generator</title>
+	<link rel="stylesheet" type="text/css" href="css/daterangepicker.css" />
+</head>
+ <body class="transparent">
+	<script type="text/javascript" src="js/countryList.js"></script>
+	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.js"></script>
+	<script type="text/javascript" src="js/jquery-cookie-plugin/jquery.cookie.js"></script>
+	<script type="text/javascript" src="js/jquery-validation/jquery.validate.js"></script>
+	<script type="text/javascript" src="js/popper.min.js" ></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/seedrandom.min.js"></script>
+	<script type="text/javascript" src="js/moment.min.js"></script>
+	<script type="text/javascript" src="js/daterangepicker.min.js"></script>
+	<script type="text/javascript" src="js/html2pdf.bundle.min.js"></script>
+
+	<div id="mainFrame" class="vertical-center">
+		<div id="demographicsPage" class="whiteBox container rounded">
+			<form id="demographicsForm" class="form-horizontal" action="javascript:generate(this);">
+				<div id="input">
+                    <div class="row">
+                        <div class="col mt-4 mb-2 ">
+                            <a href="https://hci-studies.org"><img src="img/frankfurtlogo.png" class="float-right  mr-3" width="140px" alt="FRA-UAS Logo"></a>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <h3 id="demographicsTitle" class="display-6">Participation Confirmation Generator</h3>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row mt-3">
+                        <div class="col mb-3">
+                            This tool enables batch processing of confirmation letters of participation in your study. <strong>All data is processed locally on your browser. No personal data is submitted to a server. </strong>Please note that all names (experimenter and participants) must be separated through commas. Number of group members and their e-mails must be identical. The regular procudure for participation confirmation is:
+							 <p><ul> 
+								<li>The experimenters (you) must <strong>fill in the participant overview record</strong> during the study.</li>
+								<li>With this batch process you can <strong>generate confirmation letters</strong> for your participants <strong>instantly or after the study</strong>.</li>
+								<li>You can hand out this confirmation letter <strong>digitally or physically</strong> to your participants.</li>
+								<li>Students, who need credit points for their lecture, must submit their confirmation letters until the end of their course.</li> 
+							</ul></p>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row mt-3 ">
+                        <div class="col-8"><span id="institutionText">Excel file of the participation <strong>overview record for the experimenter(s)</strong></span><br /></div>
+                        <div class="col-4"><a id="btnDownloadExcel" class="btn btn-primary float-right mb-2" href="download/ParticipantOverviewRecord.xlsx"/>Download</a></div>
+                    </div>
+                    <hr />
+                    <div class="row mt-3 ">
+                        <div class="col-12 mb-2">Fill in the following fields and generate instantly the <strong>confirmation letters for your participant(s)</strong>:</div>
+                    </div>
+                    <div class="row mt-3 ">
+                        <div class="col-4"><span id="institutionText">Your Institution</span><span class="text-danger">*</span><br /></div>
+                        <div class="col-8"><select class="form-control" name="selectInstitution" required></select></div>
+                    </div>
+                    <div class="row mt-3 ">
+                        <div class="col-4"><span id="researchText">Kind of research</span><span class="text-danger">*</span><br /></div>
+                        <div class="col-8"><select class="form-control" name="selectResearch" required></select></div>
+                    </div>
+                    <div class="row mt-3 ">
+                        <div class="col-4"><span id="titleText">Title</span><span class="text-danger">*</span><br /></div>
+                        <div class="col-8"><input class="form-control" name="title" required></input></div>
+                    </div>
+                    <div class="row mt-3 ">
+                        <div class="col-4"><span id="compensationText">Compensation</span><span class="text-danger">*</span><br /></div>
+                        <div class="col-8"><select class="form-control" name="compensation" required></select></div>
+                    </div>
+                    <div class="row mt-3 ">
+                        <div class="col-4"><span id="compensationText">Study Date Range</span><span class="text-danger">*</span><br /></div>
+                        <div class="col-8"><input class="form-control" type="text" name="daterange" value="01/01/2023 - 01/15/2023" required/></div>
+                    </div>
+					<div class="row mt-3 ">
+                        <div class="col-4"><span id="durationText">Study Duration</span><span class="text-danger">*</span><br></div>
+                        <div class="col-8"><input class="form-control" name="duration" required placeholder="e.g., 60 minutes" ></div>
+                    </div>
+                    <div class="row mt-3 ">
+                        <div class="col-4"><span id="teamMembers">Firstname lastname of all group members (comma separated)</span><span class="text-danger">*</span><br /></div>
+                        <div class="col-8"><textarea rows="4" class="form-control" name="teamMembers" required></textarea></div>
+                    </div>
+                    <div class="row mt-3 ">
+                        <div class="col-4"><span id="teamMemberMails">E-Mails all group members (comma separated), same order as above</span><span class="text-danger">*</span><br /></div>
+                        <div class="col-8"><textarea rows="4" class="form-control" name="teamMembersMails" required></textarea></div>
+                    </div>
+                    <div class="row mt-3 ">
+                        <div class="col-4"><span id="participants">Firstname lastname of your participants (comma separated). Keep empty for blank sheet. You can also enter a single name.</span><br /></div>
+                        <div class="col-8"><textarea rows="4" class="form-control" name="participants"></textarea></div>
+                    </div>
+                    <div class="row mt-3 ">
+                        <div class="col-4"><span id="supervisorName">Supervisor Name</span><span class="text-danger">*</span><br /></div>
+                        <div class="col-8"><input class="form-control" name="supervisorName" required></input></div>
+                    </div>
+                    <div class="row mt-3 ">
+                        <div class="col-4"><span id="supervisorMail">Supervisors' E-Mail</span><span class="text-danger">*</span><br /></div>
+                        <div class="col-8"><input class="form-control" name="supervisorMail" required></input></div>
+                    </div>
+                    <div class="row mt-3 ">
+                        <div class="col-4"><span id="experimenterSignature">Experimenter Signature (there is no file upload, confirmations are batch processed in your browser!)</span><span class="text-danger">*</span><br /></div>
+                        <div class="col-4"><input type="file" accept="image/*" onchange="loadImageFile(event)"></div> 
+						<div class="col-4"><img id="previewImg" src="img/whitePlaceholder.png" height="30px"/></div>
+                    </div> 
+                    <div class="row mt-2 mb-2 itemRow" id="fieldsrequired">
+                        <div class="col" >
+                            <span class="text-danger">* fields required</span> <br />
+                        </div>
+                    </div>
+				</div>
+				<div class="row mt-2 itemRow">
+					<div class="col" >
+						<button id="btnBack" class="btn btn-primary btn-md float-left mb-1" >Back</button>
+						<a id="btnExample" class="btn btn-secondary btn-md float-left mr-3 mb-1" >Example</a>
+						<a id="btnExampleWithoutSignature" class="btn btn-secondary btn-md float-left mr-3 mb-1" >Example w/o Signature</a>
+						<button id="btnGenerate" class="btn btn-primary btn-md float-right mb-1" type="Submit" value="">Generate</button>
+						<button id="btnPrint" class="btn btn-primary btn-md float-right mr-1 mb-1" value="">Print all</button>
+						<button id="btnSave" class="btn btn-primary btn-md float-right mr-1 mb-1" value="">Save one PDF</button>
+						<button id="btnSaveEach" class="btn btn-primary btn-md float-right mr-1 mb-1" value="">Save each participant as PDF</button>
+					</div>
+				</div>
+				<div class="row mt-2 mb-2" id="results">
+
+				</div>
+				<div class="row mt-2 mb-2 itemRow" id="githublink">
+					<div class="col" >
+						<a href="https://github.com/valentin-schwind/participation-confirmation-generator">Source Code on github</a>
+					</div>
+				</div>
+			</form>
+		</div>
+
+
+	</div>
+
+
+	<script>
+
+		var debug = false;
+		var theDateRange; 
+		var theSignaturePath = 'https://hci-studies.org/participation-confirmation-generator/img/whitePlaceholder.png'; 
+		var teamMembersArray = $("textarea[name='teamMembers']").val().split(",");
+		var teamMembersMailsArray = $("textarea[name='teamMembersMails']").val().split(",");
+		var participantsArray = $("textarea[name='participants']").val().split(",");
+			
+		$(document).ready(function() {
+			$("#previewImg").attr("src", theSignaturePath); 
+			fillSelect();
+			
+			$("#btnExampleWithoutSignature").click(function(e) {
+				$("select[name='selectInstitution']").val("University of Applied Sciences in Frankfurt")
+				$("select[name='selectResearch']").val("user study")
+				$("select[name='compensation']").val("one credit point for the lecture MMI (Mensch-Maschine-Interaktion), HMI (Human-Machine-Interaction), or HCI (Human-Computer-Interaction)")
+				$("input[name='title'] ").val("Fitts' Task in Virtual Reality using Avatar Hands");
+				$("input[name='duration'] ").val("60 minutes");
+				$("input[name='supervisorName']").val("Prof. Dr. Valentin Schwind"); 
+				$("input[name='supervisorMail']").val("valentin.schwind@fb2.fra-uas.de");
+				$("textarea[name='teamMembers']").val("Max Mustermann");
+				$("textarea[name='teamMembersMails']").val("max.mustermann@stud.fra-uas.de");
+				$("textarea[name='participants']").val("Rosa Himmel, Roman Tisch, Rainer Zufall");
+				
+				theSignaturePath = 'https://hci-studies.org/participation-confirmation-generator/img/whitePlaceholder.png'; 
+				$("#previewImg").attr("src", theSignaturePath);  
+                e.preventDefault();
+			});
+ 
+			
+			$("#btnExample").click(function(e) {
+				$("select[name='selectInstitution']").val("University of Applied Sciences in Frankfurt")
+				$("select[name='selectResearch']").val("user study")
+				$("select[name='compensation']").val("one credit point for the lecture MMI (Mensch-Maschine-Interaktion), HMI (Human-Machine-Interaction), or HCI (Human-Computer-Interaction)")
+				$("input[name='title'] ").val("Fitts' Task in Virtual Reality using Avatar Hands");
+				$("input[name='duration'] ").val("60 minutes");
+				$("input[name='supervisorName']").val("Prof. Dr. Valentin Schwind"); 
+				$("input[name='supervisorMail']").val("valentin.schwind@fb2.fra-uas.de");
+				$("textarea[name='teamMembers']").val("Max Mustermann, Maxy Musterfrau, Susi Musterfrau");
+				$("textarea[name='teamMembersMails']").val("max.mustermann@stud.fra-uas.de, maxy.musterfrau@stud.fra-uas.de, susi.musterfrau@stud.fra-uas.de");
+				$("textarea[name='participants']").val("Hans Wurst, Heide Kraut, Franz Mann");
+				
+				theSignaturePath = 'https://hci-studies.org/participation-confirmation-generator/img/signatureExample.png';
+				$("#previewImg").attr("src", theSignaturePath);  
+                e.preventDefault();
+			});
+ 
+
+			$(function() {
+				$('input[name="daterange"]').daterangepicker({
+					"showDropdowns": true,
+					"autoApply": true,
+					"locale": {
+						"format": "MM/DD/YYYY",
+						"separator": " - ",
+						"applyLabel": "Apply",
+						"cancelLabel": "Cancel",
+						"fromLabel": "From",
+						"toLabel": "To",
+						"customRangeLabel": "Custom",
+						"weekLabel": "W",
+						"daysOfWeek": [
+							"Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"
+						],
+						"monthNames": [
+							"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+						],
+						"firstDay": 1
+					},
+					"startDate": "08/10/2022",
+					"endDate": "08/16/2022",
+					"drops": "auto"
+				}, function(start, end, label) {
+					console.log("A new date selection was made: " + start.format('DD/MM/YYYY') + ' to ' + end.format('DD/MM/YYYY'));
+					theDateRange = "from " + start.format('DD/MM/YYYY') + ' to ' + end.format('DD/MM/YYYY');
+				});
+			}); 
+			theDateRange = "from 08/16/2022 to 08/23/2022";
+			//$("#btnExample").click();
+			//$("#btnGenerate").click();
+		});
+		
+		function loadImageFile(input) {
+			var file = $("input[type=file]").get(0).files[0];
+			if(file){
+				var reader = new FileReader(); 
+				reader.onload = function(){
+					theSignaturePath = reader.result;
+					$("#previewImg").attr("src", theSignaturePath); 
+				} 
+				reader.readAsDataURL(file);
+			}
+		}
+ 
+        function fillSelect() {
+            $("select[name='selectInstitution']").append(new Option('Please select', ""));
+            $("select[name='selectInstitution']").append(new Option('University of Applied Sciences Frankfurt', "University of Applied Sciences in Frankfurt"));
+            $("select[name='selectInstitution']").append(new Option('University of Regensburg', "University of Regensburg"));
+            $("select[name='selectInstitution']").append(new Option('University of Stuttgart', "University of Stuttgart"));
+
+            $("select[name='selectResearch']").append(new Option('Please select', ""));
+            $("select[name='selectResearch']").append(new Option('Online study (survey, apps, web studies, etc.)', "online study"));
+            $("select[name='selectResearch']").append(new Option('User Study (lab study, UX study, VR, eye-tracking, etc.)', "user study"));
+            $("select[name='selectResearch']").append(new Option('Field Study (outside the lab, in-situ, etc.)', "field study"));
+            $("select[name='selectResearch']").append(new Option('Interview (focus groups, expert interviews, use cases, diaries, etc.)', "interview")); 
+
+            $("select[name='compensation']").append(new Option('Please select', ""));
+            $("select[name='compensation']").append(new Option('None', "no compensation"));
+            $("select[name='compensation']").append(new Option('1 EUR', "1 EUR"));
+            $("select[name='compensation']").append(new Option('5 EUR', "5 EUR"));
+            $("select[name='compensation']").append(new Option('10 EUR', "10 EUR"));
+            $("select[name='compensation']").append(new Option('15 EUR', "15 EUR"));
+            $("select[name='compensation']").append(new Option('20 EUR', "20 EUR"));
+            $("select[name='compensation']").append(new Option('one half credit point for the lecture', "one half credit point for the lecture MMI (Mensch-Maschine-Interaktion), HMI (Human-Machine-Interaction), or HCI (Human-Computer-Interaction)"));
+            $("select[name='compensation']").append(new Option('one credit point for the lecture (e.g., when you need 3 for the lecture)', "one credit point for the lecture MMI (Mensch-Maschine-Interaktion), HMI (Human-Machine-Interaction), or HCI (Human-Computer-Interaction)"));
+
+            $("input[name='title'] ").attr("placeholder", "Your research title"); 
+            $("input[name='supervisorName']").attr("placeholder", "The name of your supervisor..."); 
+            $("input[name='supervisorMail']").attr("placeholder", "The e-mail of your supervisor..."); 
+            $("input[name='participants']").attr("placeholder", "Insert number");
+            $("input[name='studentName']").attr("placeholder","Eva Musterfrau");
+            $("input[name='studentEmail']").attr("placeholder","eva.musterfrau@gmail.com");
+            $("input[name='funding']").attr("placeholder","Your funding (keep empty if none)");
+            $("input[name='duration']").attr("placeholder","e.g., '60 minutes'");
+            $("input[name='purpose']").attr("placeholder","Explain the purpose of this research. ");
+            $("input[name='goal']").attr("placeholder","Explain the goal of this research. ");
+			
+			$("textarea[name='teamMembers']").attr("placeholder","Max Mustermann, Maxy Musterfrau, Susi Musterfrau");
+			$("textarea[name='teamMembersMails']").attr("placeholder","max.mustermann@stud.fra-uas.de, maxy.musterfrau@stud.fra-uas.de, susi.musterfrau@stud.fra-uas.de");
+			$("textarea[name='participants']").attr("placeholder","Hans Wurst, Heide Kraut, Franz Mann, Rosa Himmel, Roman Tisch, Rainer Zufall");
+
+            $("#btnBack").hide();
+            $("#btnPrint").hide();
+			$("#btnSave").hide();
+			$("#btnSaveEach").hide();
+
+            $("#btnBack").click(function(e){
+                $("#btnBack").hide();
+                $("#btnPrint").hide();
+                $("#btnSave").hide();
+                $("#btnSaveEach").hide();
+				$("#btnExample").show();
+				$("#btnExampleWithoutSignature").show();
+                $("#input").show();
+                $("#fieldsrequired").show();
+                $("#btnGenerate").show();
+                $("#results").html("");
+                e.preventDefault();
+            });
+
+            $("#btnPrint").click(function(e){
+                $('.print_special').css({ border : 'none'});
+                window.print();
+                e.preventDefault();
+            });
+
+            $("#btnSave").click(function(e){
+                const element = document.getElementById('results'); 
+				console.log(element)
+				html2pdf().set({
+					margin: [1, 1, 1, 1] , // [top, left, bottom, right].
+					filename: 'Confirmation of Participation.pdf',
+					image: { type: 'jpeg', quality: 1 },
+					html2canvas: { dpi: 192, letterRendering: true, useCORS: true, scale: 4 },
+					pagebreak: { mode: ['avoid-all', 'css', 'legacy'], before: '#pageBreak' },
+					jsPDF: { unit: 'cm', format: 'A4', orientation: 'portrait' }
+				}).from(element).save();
+				
+                e.preventDefault();
+            });
+
+            $("#btnSaveEach").click(function(e){
+				for(participant in participantsArray) {
+					const element = document.getElementById(participantsArray[participant]); 
+					console.log(element)
+					html2pdf().set({
+						margin: [1, 1, 1, 1] , // [top, left, bottom, right].
+						filename: 'Confirmation of Participation - ' + participantsArray[participant] + '.pdf' ,
+						image: { type: 'jpeg', quality: 1 },
+						html2canvas: { dpi: 192, letterRendering: true, useCORS: true, scale: 4 },
+						pagebreak: { mode: ['avoid-all', 'css', 'legacy'], before: '#pageBreak' },
+						jsPDF: { unit: 'cm', format: 'A4', orientation: 'portrait' }
+					}).from(element).save();
+					
+					e.preventDefault();
+				}
+            });
+		}
+
+        function generate() {
+			 
+			teamMembersArray = $("textarea[name='teamMembers']").val().split(",");
+			teamMembersMailsArray = $("textarea[name='teamMembersMails']").val().split(",");
+			participantsArray = $("textarea[name='participants']").val().split(",");
+			
+			if(teamMembersArray.length != teamMembersMailsArray.length) {
+				alert("Number of group members and their e-mails must be identical.");
+				return;				
+			}
+			
+            $("#btnGenerate").hide();
+            $("#input").hide();
+            $("#btnPrint").show();
+            $("#btnBack").show();
+            $("#btnSave").show();
+            $("#btnSaveEach").show();
+			$("#fieldsrequired").hide();
+			$("#btnExample").hide();
+			$("#btnExampleWithoutSignature").hide();
+			$("#btnPrint").show();
+ 
+            var str = "";
+
+			switch( $("select[name='selectResearch']").val()){
+				case "online study": article = " an "; break;
+				case "user study": article = " a "; break;
+				case "field study": article = " a "; break;
+				case "interview": article = " an "; break;
+			} 
+			
+			var teamMembersString = "";
+			var teamMembersMailString = "";
+			 
+			for(member in teamMembersArray) { 
+				if(teamMembersArray.length > 1){
+					if(member == teamMembersArray.length - 1) teamMembersString += " and " + teamMembersArray[member].trim()
+					else teamMembersString += teamMembersArray[member].trim() + ", ";
+				} else {
+					teamMembersString += teamMembersArray[member];
+				}
+			}
+			
+			var teamMembersMailsString = "<ul>";
+			for(member in teamMembersMailsArray) { 
+				teamMembersMailsString += "<li>" + teamMembersArray[member].trim() + " (" + teamMembersMailsArray[member].trim() + ")</li>";
+			}
+			teamMembersMailsString += "</ul>";
+			
+			for(participant in participantsArray) {
+				var participantName = participantsArray[participant];
+				str += "<div class='pageBreak' id='" + participantName + "'>";
+			
+				switch( $("select[name='selectInstitution']").val()){
+					case "University of Applied Sciences in Frankfurt": 
+						str += "<div class='row'><div class='col mt-4 mb-2'><p style='padding-bottom:50px'><img src='img/frankfurtlogo.png' class='float-right' width='150px' alt='Logo' /></p></div></div>"; break;
+					case "University of Regensburg": 
+						str += "<div class='row'><div class='col mt-4 mb-2'><p style='padding-bottom:50px'><img src='img/regensburglogo.png' class='float-right' width='150px' alt='Logo' /></p></div></div>"; break;
+					case "University of Stuttgart": 
+						str += "<div class='row'><div class='col mt-4 mb-2'><p style='padding-bottom:50px'><img src='img/stuttgartlogo.jpg' class='float-right' width='150px' alt='Logo' /></p></div></div>"; break;
+				} 
+				if(participantName == "") participantName = "<br /><div style='font-weight: normal;'>_______________________________________________________</div>";
+				str += "<h1>Confirmation of Participation</h1>";
+				str += "<p>With this letter " + (teamMembersArray.length > 1 ? "we" : "I") + ", " + teamMembersString + ", hereby confirm that </p><div class='participantName'>" + participantName + "</div><p> participated in " + (teamMembersArray.length > 1 ? "our" : "my") + " " + $("select[name='selectResearch']").val() + " <strong>" + capital_letter($("input[name='title']").val()) + "</strong>. The " + $("select[name='selectResearch']").val() + " occurred in the time " + theDateRange + " and lasted around " + $("input[name='duration']").val() + ". The research is supervised by " + $("input[name='supervisorName']").val() + " (" +  $("input[name='supervisorMail']").val() + ") at the " + $("select[name='selectInstitution']").val() + ".</p>";
+				str += "<p>The participation is rewarded with " +  $("select[name='compensation']").val() + ".</p><p> Repeated participation in the study is not permitted. Subsequent changes of the compensation are not allowed. The regulations of participation of the informed consent apply.</p>";
+				str += "<p>The supervisor and head of the investigation, " + $("input[name='supervisorName']").val() + " (" +  $("input[name='supervisorMail']").val() + "), is available to answer any questions regarding the process and the scope of this research.</p>";
+				str += "<p>In case of any questions regarding the details of " + $("select[name='selectResearch']").val() + " you can contact " + (teamMembersArray.length > 1 ? "us" : "me") + ":</p>" + teamMembersMailsString;
+				str += "<p>" + (teamMembersArray.length > 1 ? "We are" : "I am") + " thankful for your support of " + (teamMembersArray.length > 1 ? "our" : "my") + " research.</p>";
+				str += "<p>";
+			
+				str += "<table>" 
+				str += "<tr><th><img src='" + theSignaturePath + "' height='60px' /></th></tr>"
+				str += "<tr><th><div style='margin-top: -20px'>_______________________________________________________</div></th></tr>"
+				str += "<tr><th>" + (teamMembersArray.length > 1 ? "Signatures of the experimenters" : "Signature of the experimenter") + "</th></tr>"
+				str += "</table></div>" 
+			}
+				
+				
+            $("#results").html("<div class='frameStyle'><div id='printBody'>" + str + "</div></div>");
+
+		}
+
+		function capital_letter(str) {
+            str = str.split(" ");
+            for (var i = 0, x = str.length; i < x; i++) {
+                str[i] = str[i][0].toUpperCase() + str[i].substr(1);
+            }
+            return str.join(" ");
+        }
+	</script>
+ </body>
+</html>
