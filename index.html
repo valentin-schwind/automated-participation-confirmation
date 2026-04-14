@@ -1,431 +1,263 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<!-- Required meta tags -->
-	<meta charset="iso-8859-1">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="author" content="Valentin Schwind">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
- <!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/style.css" />
-	<link rel="image_src" type="image/jpeg" href="http://scm.uvrg.org/img/logo.jpg" />
-	<meta property="og:image" content="http://scm.uvrg.org/img/logo.jpg">
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-	<meta property="og:site_name" content="Participation Confirmation Generator">
-	<title>Participation Confirmation Generator</title>
-	<link rel="stylesheet" type="text/css" href="css/daterangepicker.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="author" content="Valentin Schwind" />
+
+    <link rel="stylesheet" href="_css/bootstrap.min.css" />
+    <link rel="stylesheet" href="_css/daterangepicker.css" />
+    <link rel="stylesheet" href="_css/bootstrap-icons.css" />
+    <link rel="stylesheet" href="_css/style.css" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+    <meta property="og:site_name" content="Participation Confirmation Generator" />
+    <title>Participation Confirmation Generator</title>
 </head>
- <body class="transparent">
-	<script type="text/javascript" src="js/countryList.js"></script>
-	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-	<script type="text/javascript" src="js/jquery-ui.js"></script>
-	<script type="text/javascript" src="js/jquery-cookie-plugin/jquery.cookie.js"></script>
-	<script type="text/javascript" src="js/jquery-validation/jquery.validate.js"></script>
-	<script type="text/javascript" src="js/popper.min.js" ></script>
-	<script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/seedrandom.min.js"></script>
-	<script type="text/javascript" src="js/moment.min.js"></script>
-	<script type="text/javascript" src="js/daterangepicker.min.js"></script>
-	<script type="text/javascript" src="js/html2pdf.bundle.min.js"></script>
+<body>
+    <script src="_js/jquery-3.3.1.min.js"></script>
+    <script src="_js/bootstrap.bundle.min.js"></script>
+    <script src="_js/moment.min.js"></script>
+    <script src="_js/daterangepicker.min.js"></script>
+    <script src="_js/jspdf.umd.min.js"></script>
+    <script src="_fonts/Roboto-Regular-normal.js"></script>
+    <script src="_fonts/Roboto-Medium-normal.js"></script>
+    <script src="_js/participation-renderer-jspdf.js"></script>
+    <script src="_js/participation-app.js"></script>
 
-	<div id="mainFrame" class="vertical-center">
-		<div id="demographicsPage" class="whiteBox container rounded">
-			<form id="demographicsForm" class="form-horizontal" action="javascript:generate(this);">
-				<div id="input">
-                    <div class="row">
-                        <div class="col mt-4 mb-2 ">
-                            <a href="https://hci-studies.org"><img src="img/frankfurtlogo.png" class="float-right  mr-3" width="140px" alt="FRA-UAS Logo"></a>
+    <div class="page-shell">
+        <div id="mainFrame" class="container page-card rounded">
+            <div id="demographicsPage">
+                <div id="input">
+                    <header class="page-header">
+                        <div class="logo-row">
+                            <a href="https://hci-studies.org/" target="_blank" rel="noopener noreferrer">
+                                <img id="headerLogo" src="_img/hdmlogo.png" class="header-logo" alt="HdM logo" width="72" style="width: 72px; min-width: 72px; max-width: 72px; height: auto;" />
+                            </a>
+                        </div>
+
+                        <p class="kicker"><a href="https://hci-studies.org/" target="_blank" rel="noopener noreferrer">HOME</a> &gt;&gt; HCI User Studies Toolkit</p>
+
+                        <h1 id="demographicsTitle">Participation Confirmation Generator</h1>
+
+                        <p class="intro">
+                            Generate confirmation letters for one or many study participants directly in your browser. The updated workflow keeps the existing batch-processing logic, preserves local-only data handling, and now renders an aligned HdM-style PDF preview and export without any backend service.
+                        </p>
+                        <p class="intro-note">
+                            All personal data stays in your browser. No participant information is uploaded to a server. Separate names and e-mail addresses with commas and keep the order identical across researcher names and researcher e-mails.
+                        </p>
+                    </header>
+
+                    <section class="content-section">
+                        <div class="section-heading"><h2><i class="bi bi-info-circle me-2"></i>Workflow</h2></div>
+                        <div class="config-panel">
+                            <p class="section-intro mb-3">The regular procedure for participation confirmations is unchanged:</p>
+                            <ul class="intro-list">
+                                <li>The experimenter team fills in the participant overview record during or after the study.</li>
+                                <li>The generator creates confirmation letters instantly for one or many participants.</li>
+                                <li>The resulting confirmations can be handed out digitally or physically.</li>
+                                <li>Students who need credit points can submit the generated confirmation to their course.</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section class="content-section">
+                        <div class="section-heading"><h2><i class="bi bi-file-earmark-arrow-down me-2"></i>Participant Overview Record</h2></div>
+                        <div class="table-card resource-card">
+                            <div class="resource-item">
+                                <div>
+                                    <h3><i class="bi bi-table me-2"></i>Overview Excel Template</h3>
+                                    <p>Use the participant overview record for experimenter-side documentation and batch preparation.</p>
+                                </div>
+                                <div class="resource-actions">
+                                    <a id="btnDownloadExcel" class="btn btn-primary" href="download/ParticipantOverviewRecord.xlsx">Download</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <form id="participationForm" class="tool-form" novalidate>
+                        <section class="content-section">
+                            <div class="section-heading"><h2><i class="bi bi-ui-checks-grid me-2"></i>Study Basics</h2></div>
+                            <p class="section-intro">Enter the institution, study type, compensation and study period first. These settings are reused for every generated participant confirmation.</p>
+                            <div class="config-panel">
+                                <div class="row mt-1 align-items-start">
+                                    <div class="col-lg-4 col-md-12 form-label-column"><label class="field-label" for="selectInstitution">Your institution</label><span class="text-danger">*</span></div>
+                                    <div class="col-lg-8 col-md-12">
+                                        <select class="form-control" id="selectInstitution" name="selectInstitution" required aria-describedby="institutionError"></select>
+                                        <div class="invalid-feedback" id="institutionError">Please select an institution.</div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3 align-items-start">
+                                    <div class="col-lg-4 col-md-12 form-label-column"><label class="field-label" for="selectResearch">Kind of research</label><span class="text-danger">*</span></div>
+                                    <div class="col-lg-8 col-md-12">
+                                        <select class="form-control" id="selectResearch" name="selectResearch" required aria-describedby="researchError"></select>
+                                        <div class="invalid-feedback" id="researchError">Please select the research type.</div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3 align-items-start">
+                                    <div class="col-lg-4 col-md-12 form-label-column"><label class="field-label" for="title">Title</label><span class="text-danger">*</span></div>
+                                    <div class="col-lg-8 col-md-12">
+                                        <input class="form-control" id="title" name="title" required autocomplete="off" aria-describedby="titleError" />
+                                        <div class="invalid-feedback" id="titleError">Please enter the study title.</div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3 align-items-start">
+                                    <div class="col-lg-4 col-md-12 form-label-column"><label class="field-label" for="compensation">Compensation</label><span class="text-danger">*</span></div>
+                                    <div class="col-lg-8 col-md-12">
+                                        <select class="form-control" id="compensation" name="compensation" required aria-describedby="compensationError"></select>
+                                        <div class="invalid-feedback" id="compensationError">Please select a compensation option.</div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3 align-items-start">
+                                    <div class="col-lg-4 col-md-12 form-label-column"><label class="field-label" for="daterangepicker">Study date range</label><span class="text-danger">*</span></div>
+                                    <div class="col-lg-8 col-md-12">
+                                        <input id="daterangepicker" class="form-control" type="text" name="daterange" required aria-describedby="dateRangeError" />
+                                        <div class="invalid-feedback" id="dateRangeError">Please choose a valid date range.</div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3 align-items-start">
+                                    <div class="col-lg-4 col-md-12 form-label-column"><label class="field-label" for="duration">Study duration</label><span class="text-danger">*</span></div>
+                                    <div class="col-lg-8 col-md-12">
+                                        <input class="form-control" id="duration" name="duration" required autocomplete="off" aria-describedby="durationError" />
+                                        <div class="helper-text">Example: <code>60 minutes</code></div>
+                                        <div class="invalid-feedback" id="durationError">Please enter the approximate duration.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="content-section">
+                            <div class="section-heading"><h2><i class="bi bi-people me-2"></i>Research Team and Participants</h2></div>
+                            <p class="section-intro">Use comma-separated lists for the researcher team and optional participant names. If the participant list stays empty, the generator creates one blank confirmation sheet.</p>
+                            <div class="config-panel">
+                                <div class="row mt-1 align-items-start">
+                                    <div class="col-lg-4 col-md-12 form-label-column"><label class="field-label" for="teamMembers">Research student name(s)</label><span class="text-danger">*</span></div>
+                                    <div class="col-lg-8 col-md-12">
+                                        <textarea rows="4" class="form-control" id="teamMembers" name="teamMembers" required aria-describedby="teamMembersError"></textarea>
+                                        <div class="helper-text">Separate multiple names with commas.</div>
+                                        <div class="invalid-feedback" id="teamMembersError">Please enter at least one researcher name.</div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3 align-items-start">
+                                    <div class="col-lg-4 col-md-12 form-label-column"><label class="field-label" for="teamMembersMails">Research student e-mail(s)</label><span class="text-danger">*</span></div>
+                                    <div class="col-lg-8 col-md-12">
+                                        <textarea rows="4" class="form-control" id="teamMembersMails" name="teamMembersMails" required aria-describedby="teamMembersMailsHelp teamMembersMailsError"></textarea>
+                                        <div class="helper-text" id="teamMembersMailsHelp">Use the same order as the name list above.</div>
+                                        <div class="invalid-feedback" id="teamMembersMailsError">Please enter researcher e-mail addresses in the same order as the names.</div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3 align-items-start">
+                                    <div class="col-lg-4 col-md-12 form-label-column"><label class="field-label" for="participants">Participant name(s)</label></div>
+                                    <div class="col-lg-8 col-md-12">
+                                        <textarea rows="4" class="form-control" id="participants" name="participants" aria-describedby="participantsHelp"></textarea>
+                                        <div class="helper-text" id="participantsHelp">Leave empty for a blank confirmation sheet, or provide one or many participant names separated by commas.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="content-section">
+                            <div class="section-heading"><h2><i class="bi bi-person-badge me-2"></i>Supervision and Signature</h2></div>
+                            <p class="section-intro">The supervisor details are inserted into every confirmation. Uploading a signature remains optional for the blank example and enabled for standard batch export.</p>
+                            <div class="config-panel">
+                                <div class="row mt-1 align-items-start">
+                                    <div class="col-lg-4 col-md-12 form-label-column"><label class="field-label" for="supervisorName">Supervisor name</label><span class="text-danger">*</span></div>
+                                    <div class="col-lg-8 col-md-12">
+                                        <input class="form-control" id="supervisorName" name="supervisorName" required autocomplete="name" aria-describedby="supervisorNameError" />
+                                        <div class="invalid-feedback" id="supervisorNameError">Please enter the supervisor name.</div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3 align-items-start">
+                                    <div class="col-lg-4 col-md-12 form-label-column"><label class="field-label" for="supervisorMail">Supervisors' E-Mail</label><span class="text-danger">*</span></div>
+                                    <div class="col-lg-8 col-md-12">
+                                        <input class="form-control" id="supervisorMail" name="supervisorMail" type="email" required autocomplete="email" aria-describedby="supervisorMailError" />
+                                        <div class="invalid-feedback" id="supervisorMailError">Please enter a valid supervisor e-mail.</div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3 align-items-start">
+                                    <div class="col-lg-4 col-md-12 form-label-column"><label class="field-label" for="signatureUpload">Experimenter signature</label></div>
+                                    <div class="col-lg-8 col-md-12">
+                                        <input id="signatureUpload" type="file" class="form-control" accept="image/*" />
+                                        <div class="helper-text">There is no server upload. The signature is only used locally for the generated preview and PDFs.</div>
+                                        <div class="signature-preview-shell mt-3">
+                                            <img id="previewImg" src="_img/whitePlaceholder.png" alt="Signature preview" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="content-section">
+                            <div id="formStatus" class="alert alert-danger d-none" role="alert"></div>
+                            <div class="action-bar">
+                                <div class="action-group">
+                                    <button id="btnExample" class="btn btn-outline-secondary" type="button">Example</button>
+                                    <button id="btnExampleWithoutSignature" class="btn btn-outline-secondary" type="button">Example w/o Signature</button>
+                                </div>
+                                <button id="btnGenerate" class="btn btn-primary btn-lg" type="submit">Generate confirmations</button>
+                            </div>
+                            <div class="helper-text mt-2"><span class="text-danger">*</span> Required fields</div>
+                        </section>
+                    </form>
+                </div>
+
+                <div class="content-section d-none" id="resultsView">
+                    <div class="section-heading"><h2>Preview and Export</h2></div>
+                    <p class="section-intro">Review the locally generated confirmation set. The PDF preview and all export actions are generated client-side from the same document data.</p>
+                    <div class="action-bar action-bar-results">
+                        <div class="action-group">
+                            <button id="btnBack" class="btn btn-outline-secondary" type="button">Back to form</button>
+                            <button id="btnPrint" class="btn btn-outline-secondary" type="button">Print all</button>
+                            <button id="btnSave" class="btn btn-primary" type="button">Save as one PDF</button>
+                            <button id="btnSaveEach" class="btn btn-primary" type="button">Save each participant as PDF</button>
+                        </div>
+                        <div class="status-inline" id="dversion" aria-live="polite"></div>
+                    </div>
+                    <div class="table-card preview-card">
+                        <nav>
+                            <div class="nav nav-tabs preview-tabs" id="nav-tab" role="tablist">
+                                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">PDF Preview</button>
+                                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">HTML Preview</button>
+                            </div>
+                        </nav>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"><div id="previewPDF" class="preview-pdf" aria-label="PDF preview"></div></div>
+                            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"><article id="previewHTML" class="preview-html" aria-live="polite"></article></div>
                         </div>
                     </div>
-                    <div class="row mt-3">
-                        <div class="col">
-                            <h3 id="demographicsTitle" class="display-6">Participation Confirmation Generator</h3>
+                </div>
+
+                <section class="content-section resource-section">
+                    <div class="section-heading"><h2><i class="bi bi-github me-2"></i>Source Code</h2></div>
+                    <div class="table-card resource-card">
+                        <div class="resource-item" id="githublink">
+                            <div>
+                                <h3><i class="bi bi-code-square me-2"></i>Participation Confirmation Generator Repository</h3>
+                                <p><a href="https://github.com/valentin-schwind/automated-participation-confirmation" target="_blank" rel="noopener noreferrer">Source code on GitHub</a> for the current browser-based confirmation generator, including the local jsPDF-based preview and export workflow.</p>
+                            </div>
+                            <div class="resource-actions">
+                                <a href="https://github.com/valentin-schwind/automated-participation-confirmation" target="_blank" rel="noopener noreferrer" class="btn btn-primary" role="button">GitHub</a>
+                            </div>
                         </div>
                     </div>
-                    <hr />
-                    <div class="row mt-3">
-                        <div class="col mb-3">
-                            This tool enables batch processing of confirmation letters of participation in your study. <strong>All data is processed locally on your browser. No personal data is submitted to a server. </strong>Please note that all names (experimenter and participants) must be separated through commas. Number of group members and their e-mails must be identical. The regular procudure for participation confirmation is:
-							 <p><ul> 
-								<li>The experimenters (you) must <strong>fill in the participant overview record</strong> during the study.</li>
-								<li>With this batch process you can <strong>generate confirmation letters</strong> for your participants <strong>instantly or after the study</strong>.</li>
-								<li>You can hand out this confirmation letter <strong>digitally or physically</strong> to your participants.</li>
-								<li>Students, who need credit points for their lecture, must submit their confirmation letters until the end of their course.</li> 
-							</ul></p>
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="row mt-3 ">
-                        <div class="col-8"><span id="institutionText">Excel file of the participation <strong>overview record for the experimenter(s)</strong></span><br /></div>
-                        <div class="col-4"><a id="btnDownloadExcel" class="btn btn-primary float-right mb-2" href="download/ParticipantOverviewRecord.xlsx"/>Download</a></div>
-                    </div>
-                    <hr />
-                    <div class="row mt-3 ">
-                        <div class="col-12 mb-2">Fill in the following fields and generate instantly the <strong>confirmation letters for your participant(s)</strong>:</div>
-                    </div>
-                    <div class="row mt-3 ">
-                        <div class="col-4"><span id="institutionText">Your Institution</span><span class="text-danger">*</span><br /></div>
-                        <div class="col-8"><select class="form-control" name="selectInstitution" required></select></div>
-                    </div>
-                    <div class="row mt-3 ">
-                        <div class="col-4"><span id="researchText">Kind of research</span><span class="text-danger">*</span><br /></div>
-                        <div class="col-8"><select class="form-control" name="selectResearch" required></select></div>
-                    </div>
-                    <div class="row mt-3 ">
-                        <div class="col-4"><span id="titleText">Title</span><span class="text-danger">*</span><br /></div>
-                        <div class="col-8"><input class="form-control" name="title" required></input></div>
-                    </div>
-                    <div class="row mt-3 ">
-                        <div class="col-4"><span id="compensationText">Compensation</span><span class="text-danger">*</span><br /></div>
-                        <div class="col-8"><select class="form-control" name="compensation" required></select></div>
-                    </div>
-                    <div class="row mt-3 ">
-                        <div class="col-4"><span id="compensationText">Study Date Range</span><span class="text-danger">*</span><br /></div>
-                        <div class="col-8"><input class="form-control" type="text" name="daterange" value="01/01/2023 - 01/15/2023" required/></div>
-                    </div>
-					<div class="row mt-3 ">
-                        <div class="col-4"><span id="durationText">Study Duration</span><span class="text-danger">*</span><br></div>
-                        <div class="col-8"><input class="form-control" name="duration" required placeholder="e.g., 60 minutes" ></div>
-                    </div>
-                    <div class="row mt-3 ">
-                        <div class="col-4"><span id="teamMembers">Firstname lastname of all group members (comma separated)</span><span class="text-danger">*</span><br /></div>
-                        <div class="col-8"><textarea rows="4" class="form-control" name="teamMembers" required></textarea></div>
-                    </div>
-                    <div class="row mt-3 ">
-                        <div class="col-4"><span id="teamMemberMails">E-Mails all group members (comma separated), same order as above</span><span class="text-danger">*</span><br /></div>
-                        <div class="col-8"><textarea rows="4" class="form-control" name="teamMembersMails" required></textarea></div>
-                    </div>
-                    <div class="row mt-3 ">
-                        <div class="col-4"><span id="participants">Firstname lastname of your participants (comma separated). Keep empty for blank sheet. You can also enter a single name.</span><br /></div>
-                        <div class="col-8"><textarea rows="4" class="form-control" name="participants"></textarea></div>
-                    </div>
-                    <div class="row mt-3 ">
-                        <div class="col-4"><span id="supervisorName">Supervisor Name</span><span class="text-danger">*</span><br /></div>
-                        <div class="col-8"><input class="form-control" name="supervisorName" required></input></div>
-                    </div>
-                    <div class="row mt-3 ">
-                        <div class="col-4"><span id="supervisorMail">Supervisors' E-Mail</span><span class="text-danger">*</span><br /></div>
-                        <div class="col-8"><input class="form-control" name="supervisorMail" required></input></div>
-                    </div>
-                    <div class="row mt-3 ">
-                        <div class="col-4"><span id="experimenterSignature">Experimenter Signature (there is no file upload, confirmations are batch processed in your browser!)</span><span class="text-danger">*</span><br /></div>
-                        <div class="col-4"><input type="file" accept="image/*" onchange="loadImageFile(event)"></div> 
-						<div class="col-4"><img id="previewImg" src="img/whitePlaceholder.png" height="30px"/></div>
-                    </div> 
-                    <div class="row mt-2 mb-2 itemRow" id="fieldsrequired">
-                        <div class="col" >
-                            <span class="text-danger">* fields required</span> <br />
-                        </div>
-                    </div>
-				</div>
-				<div class="row mt-2 itemRow">
-					<div class="col" >
-						<button id="btnBack" class="btn btn-primary btn-md float-left mb-1" >Back</button>
-						<a id="btnExample" class="btn btn-secondary btn-md float-left mr-3 mb-1" >Example</a>
-						<a id="btnExampleWithoutSignature" class="btn btn-secondary btn-md float-left mr-3 mb-1" >Example w/o Signature</a>
-						<button id="btnGenerate" class="btn btn-primary btn-md float-right mb-1" type="Submit" value="">Generate</button>
-						<button id="btnPrint" class="btn btn-primary btn-md float-right mr-1 mb-1" value="">Print all</button>
-						<button id="btnSave" class="btn btn-primary btn-md float-right mr-1 mb-1" value="">Save one PDF</button>
-						<button id="btnSaveEach" class="btn btn-primary btn-md float-right mr-1 mb-1" value="">Save each participant as PDF</button>
-					</div>
-				</div>
-				<div class="row mt-2 mb-2" id="results">
+                </section>
 
-				</div>
-				<div class="row mt-2 mb-2 itemRow" id="githublink">
-					<div class="col" >
-						<a href="https://github.com/valentin-schwind/automated-participation-confirmation">Source Code on github</a>
-					</div>
-				</div>
-			</form>
-		</div>
-
-
-	</div>
-
-
-	<script>
-
-		var debug = false;
-		var theDateRange; 
-		var theSignaturePath = '/img/whitePlaceholder.png'; 
-		var teamMembersArray = $("textarea[name='teamMembers']").val().split(",");
-		var teamMembersMailsArray = $("textarea[name='teamMembersMails']").val().split(",");
-		var participantsArray = $("textarea[name='participants']").val().split(",");
-			
-		$(document).ready(function() {
-			$("#previewImg").attr("src", theSignaturePath); 
-			fillSelect();
-			
-			$("#btnExampleWithoutSignature").click(function(e) {
-				$("select[name='selectInstitution']").val("University of Applied Sciences in Frankfurt")
-				$("select[name='selectResearch']").val("user study")
-				$("select[name='compensation']").val("one credit point for the lecture MMI (Mensch-Maschine-Interaktion), HMI (Human-Machine-Interaction), or HCI (Human-Computer-Interaction)")
-				$("input[name='title'] ").val("Fitts' Task in Virtual Reality using Avatar Hands");
-				$("input[name='duration'] ").val("60 minutes");
-				$("input[name='supervisorName']").val("Prof. Dr. Valentin Schwind"); 
-				$("input[name='supervisorMail']").val("valentin.schwind@fb2.fra-uas.de");
-				$("textarea[name='teamMembers']").val("Max Mustermann");
-				$("textarea[name='teamMembersMails']").val("max.mustermann@stud.fra-uas.de");
-				$("textarea[name='participants']").val("Rosa Himmel, Roman Tisch, Rainer Zufall");
-				
-				theSignaturePath = 'https://hci-studies.org/participation-confirmation-generator/img/whitePlaceholder.png'; 
-				$("#previewImg").attr("src", theSignaturePath);  
-                e.preventDefault();
-			});
- 
-			
-			$("#btnExample").click(function(e) {
-				$("select[name='selectInstitution']").val("University of Applied Sciences in Frankfurt")
-				$("select[name='selectResearch']").val("user study")
-				$("select[name='compensation']").val("one credit point for the lecture MMI (Mensch-Maschine-Interaktion), HMI (Human-Machine-Interaction), or HCI (Human-Computer-Interaction)")
-				$("input[name='title'] ").val("Fitts' Task in Virtual Reality using Avatar Hands");
-				$("input[name='duration'] ").val("60 minutes");
-				$("input[name='supervisorName']").val("Prof. Dr. Valentin Schwind"); 
-				$("input[name='supervisorMail']").val("valentin.schwind@fb2.fra-uas.de");
-				$("textarea[name='teamMembers']").val("Max Mustermann, Maxy Musterfrau, Susi Musterfrau");
-				$("textarea[name='teamMembersMails']").val("max.mustermann@stud.fra-uas.de, maxy.musterfrau@stud.fra-uas.de, susi.musterfrau@stud.fra-uas.de");
-				$("textarea[name='participants']").val("Hans Wurst, Heide Kraut, Franz Mann");
-				
-				theSignaturePath = 'https://hci-studies.org/participation-confirmation-generator/img/signatureExample.png';
-				$("#previewImg").attr("src", theSignaturePath);  
-                e.preventDefault();
-			});
- 
-
-			$(function() {
-				$('input[name="daterange"]').daterangepicker({
-					"showDropdowns": true,
-					"autoApply": true,
-					"locale": {
-						"format": "MM/DD/YYYY",
-						"separator": " - ",
-						"applyLabel": "Apply",
-						"cancelLabel": "Cancel",
-						"fromLabel": "From",
-						"toLabel": "To",
-						"customRangeLabel": "Custom",
-						"weekLabel": "W",
-						"daysOfWeek": [
-							"Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"
-						],
-						"monthNames": [
-							"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-						],
-						"firstDay": 1
-					},
-					"startDate": "08/10/2022",
-					"endDate": "08/16/2022",
-					"drops": "auto"
-				}, function(start, end, label) {
-					console.log("A new date selection was made: " + start.format('DD/MM/YYYY') + ' to ' + end.format('DD/MM/YYYY'));
-					theDateRange = "from " + start.format('DD/MM/YYYY') + ' to ' + end.format('DD/MM/YYYY');
-				});
-			}); 
-			theDateRange = "from 08/16/2022 to 08/23/2022";
-			//$("#btnExample").click();
-			//$("#btnGenerate").click();
-		});
-		
-		function loadImageFile(input) {
-			var file = $("input[type=file]").get(0).files[0];
-			if(file){
-				var reader = new FileReader(); 
-				reader.onload = function(){
-					theSignaturePath = reader.result;
-					$("#previewImg").attr("src", theSignaturePath); 
-				} 
-				reader.readAsDataURL(file);
-			}
-		}
- 
-        function fillSelect() {
-            $("select[name='selectInstitution']").append(new Option('Please select', ""));
-            $("select[name='selectInstitution']").append(new Option('University of Applied Sciences Frankfurt', "University of Applied Sciences in Frankfurt"));
-            $("select[name='selectInstitution']").append(new Option('University of Regensburg', "University of Regensburg"));
-            $("select[name='selectInstitution']").append(new Option('University of Stuttgart', "University of Stuttgart"));
-
-            $("select[name='selectResearch']").append(new Option('Please select', ""));
-            $("select[name='selectResearch']").append(new Option('Online study (survey, apps, web studies, etc.)', "online study"));
-            $("select[name='selectResearch']").append(new Option('User Study (lab study, UX study, VR, eye-tracking, etc.)', "user study"));
-            $("select[name='selectResearch']").append(new Option('Field Study (outside the lab, in-situ, etc.)', "field study"));
-            $("select[name='selectResearch']").append(new Option('Interview (focus groups, expert interviews, use cases, diaries, etc.)', "interview")); 
-
-            $("select[name='compensation']").append(new Option('Please select', ""));
-            $("select[name='compensation']").append(new Option('None', "no compensation"));
-            $("select[name='compensation']").append(new Option('1 EUR', "1 EUR"));
-            $("select[name='compensation']").append(new Option('5 EUR', "5 EUR"));
-            $("select[name='compensation']").append(new Option('10 EUR', "10 EUR"));
-            $("select[name='compensation']").append(new Option('15 EUR', "15 EUR"));
-            $("select[name='compensation']").append(new Option('20 EUR', "20 EUR"));
-            $("select[name='compensation']").append(new Option('one half credit point for the lecture', "one half credit point for the lecture MMI (Mensch-Maschine-Interaktion), HMI (Human-Machine-Interaction), or HCI (Human-Computer-Interaction)"));
-            $("select[name='compensation']").append(new Option('one credit point for the lecture (e.g., when you need 3 for the lecture)', "one credit point for the lecture MMI (Mensch-Maschine-Interaktion), HMI (Human-Machine-Interaction), or HCI (Human-Computer-Interaction)"));
-
-            $("input[name='title'] ").attr("placeholder", "Your research title"); 
-            $("input[name='supervisorName']").attr("placeholder", "The name of your supervisor..."); 
-            $("input[name='supervisorMail']").attr("placeholder", "The e-mail of your supervisor..."); 
-            $("input[name='participants']").attr("placeholder", "Insert number");
-            $("input[name='studentName']").attr("placeholder","Eva Musterfrau");
-            $("input[name='studentEmail']").attr("placeholder","eva.musterfrau@gmail.com");
-            $("input[name='funding']").attr("placeholder","Your funding (keep empty if none)");
-            $("input[name='duration']").attr("placeholder","e.g., '60 minutes'");
-            $("input[name='purpose']").attr("placeholder","Explain the purpose of this research. ");
-            $("input[name='goal']").attr("placeholder","Explain the goal of this research. ");
-			
-			$("textarea[name='teamMembers']").attr("placeholder","Max Mustermann, Maxy Musterfrau, Susi Musterfrau");
-			$("textarea[name='teamMembersMails']").attr("placeholder","max.mustermann@stud.fra-uas.de, maxy.musterfrau@stud.fra-uas.de, susi.musterfrau@stud.fra-uas.de");
-			$("textarea[name='participants']").attr("placeholder","Hans Wurst, Heide Kraut, Franz Mann, Rosa Himmel, Roman Tisch, Rainer Zufall");
-
-            $("#btnBack").hide();
-            $("#btnPrint").hide();
-			$("#btnSave").hide();
-			$("#btnSaveEach").hide();
-
-            $("#btnBack").click(function(e){
-                $("#btnBack").hide();
-                $("#btnPrint").hide();
-                $("#btnSave").hide();
-                $("#btnSaveEach").hide();
-				$("#btnExample").show();
-				$("#btnExampleWithoutSignature").show();
-                $("#input").show();
-                $("#fieldsrequired").show();
-                $("#btnGenerate").show();
-                $("#results").html("");
-                e.preventDefault();
-            });
-
-            $("#btnPrint").click(function(e){
-                $('.print_special').css({ border : 'none'});
-                window.print();
-                e.preventDefault();
-            });
-
-            $("#btnSave").click(function(e){
-                const element = document.getElementById('results'); 
-				console.log(element)
-				html2pdf().set({
-					margin: [1, 1, 1, 1] , // [top, left, bottom, right].
-					filename: 'Confirmation of Participation.pdf',
-					image: { type: 'jpeg', quality: 1 },
-					html2canvas: { dpi: 192, letterRendering: true, useCORS: true, scale: 4 },
-					pagebreak: { mode: ['avoid-all', 'css', 'legacy'], before: '#pageBreak' },
-					jsPDF: { unit: 'cm', format: 'A4', orientation: 'portrait' }
-				}).from(element).save();
-				
-                e.preventDefault();
-            });
-
-            $("#btnSaveEach").click(function(e){
-				for(participant in participantsArray) {
-					const element = document.getElementById(participantsArray[participant]); 
-					console.log(element)
-					html2pdf().set({
-						margin: [1, 1, 1, 1] , // [top, left, bottom, right].
-						filename: 'Confirmation of Participation - ' + participantsArray[participant] + '.pdf' ,
-						image: { type: 'jpeg', quality: 1 },
-						html2canvas: { dpi: 192, letterRendering: true, useCORS: true, scale: 4 },
-						pagebreak: { mode: ['avoid-all', 'css', 'legacy'], before: '#pageBreak' },
-						jsPDF: { unit: 'cm', format: 'A4', orientation: 'portrait' }
-					}).from(element).save();
-					
-					e.preventDefault();
-				}
-            });
-		}
-
-        function generate() {
-			 
-			teamMembersArray = $("textarea[name='teamMembers']").val().split(",");
-			teamMembersMailsArray = $("textarea[name='teamMembersMails']").val().split(",");
-			participantsArray = $("textarea[name='participants']").val().split(",");
-			
-			if(teamMembersArray.length != teamMembersMailsArray.length) {
-				alert("Number of group members and their e-mails must be identical.");
-				return;				
-			}
-			
-            $("#btnGenerate").hide();
-            $("#input").hide();
-            $("#btnPrint").show();
-            $("#btnBack").show();
-            $("#btnSave").show();
-            $("#btnSaveEach").show();
-			$("#fieldsrequired").hide();
-			$("#btnExample").hide();
-			$("#btnExampleWithoutSignature").hide();
-			$("#btnPrint").show();
- 
-            var str = "";
-
-			switch( $("select[name='selectResearch']").val()){
-				case "online study": article = " an "; break;
-				case "user study": article = " a "; break;
-				case "field study": article = " a "; break;
-				case "interview": article = " an "; break;
-			} 
-			
-			var teamMembersString = "";
-			var teamMembersMailString = "";
-			 
-			for(member in teamMembersArray) { 
-				if(teamMembersArray.length > 1){
-					if(member == teamMembersArray.length - 1) teamMembersString += " and " + teamMembersArray[member].trim()
-					else teamMembersString += teamMembersArray[member].trim() + ", ";
-				} else {
-					teamMembersString += teamMembersArray[member];
-				}
-			}
-			
-			var teamMembersMailsString = "<ul>";
-			for(member in teamMembersMailsArray) { 
-				teamMembersMailsString += "<li>" + teamMembersArray[member].trim() + " (" + teamMembersMailsArray[member].trim() + ")</li>";
-			}
-			teamMembersMailsString += "</ul>";
-			
-			for(participant in participantsArray) {
-				var participantName = participantsArray[participant];
-				str += "<div class='pageBreak' id='" + participantName + "'>";
-			
-				switch( $("select[name='selectInstitution']").val()){
-					case "University of Applied Sciences in Frankfurt": 
-						str += "<div class='row'><div class='col mt-4 mb-2'><p style='padding-bottom:50px'><img src='img/frankfurtlogo.png' class='float-right' width='150px' alt='Logo' /></p></div></div>"; break;
-					case "University of Regensburg": 
-						str += "<div class='row'><div class='col mt-4 mb-2'><p style='padding-bottom:50px'><img src='img/regensburglogo.png' class='float-right' width='150px' alt='Logo' /></p></div></div>"; break;
-					case "University of Stuttgart": 
-						str += "<div class='row'><div class='col mt-4 mb-2'><p style='padding-bottom:50px'><img src='img/stuttgartlogo.jpg' class='float-right' width='150px' alt='Logo' /></p></div></div>"; break;
-				} 
-				if(participantName == "") participantName = "<br /><div style='font-weight: normal;'>_______________________________________________________</div>";
-				str += "<h1>Confirmation of Participation</h1>";
-				str += "<p>With this letter " + (teamMembersArray.length > 1 ? "we" : "I") + ", " + teamMembersString + ", hereby confirm that </p><div class='participantName'>" + participantName + "</div><p> participated in " + (teamMembersArray.length > 1 ? "our" : "my") + " " + $("select[name='selectResearch']").val() + " <strong>" + capital_letter($("input[name='title']").val()) + "</strong>. The " + $("select[name='selectResearch']").val() + " occurred in the time " + theDateRange + " and lasted around " + $("input[name='duration']").val() + ". The research is supervised by " + $("input[name='supervisorName']").val() + " (" +  $("input[name='supervisorMail']").val() + ") at the " + $("select[name='selectInstitution']").val() + ".</p>";
-				str += "<p>The participation is rewarded with " +  $("select[name='compensation']").val() + ".</p><p> Repeated participation in the study is not permitted. Subsequent changes of the compensation are not allowed. The regulations of participation of the informed consent apply.</p>";
-				str += "<p>The supervisor and head of the investigation, " + $("input[name='supervisorName']").val() + " (" +  $("input[name='supervisorMail']").val() + "), is available to answer any questions regarding the process and the scope of this research.</p>";
-				str += "<p>In case of any questions regarding the details of " + $("select[name='selectResearch']").val() + " you can contact " + (teamMembersArray.length > 1 ? "us" : "me") + ":</p>" + teamMembersMailsString;
-				str += "<p>" + (teamMembersArray.length > 1 ? "We are" : "I am") + " thankful for your support of " + (teamMembersArray.length > 1 ? "our" : "my") + " research.</p>";
-				str += "<p>";
-			
-				str += "<table>" 
-				str += "<tr><th><img src='" + theSignaturePath + "' height='60px' /></th></tr>"
-				str += "<tr><th><div style='margin-top: -20px'>_______________________________________________________</div></th></tr>"
-				str += "<tr><th>" + (teamMembersArray.length > 1 ? "Signatures of the experimenters" : "Signature of the experimenter") + "</th></tr>"
-				str += "</table></div>" 
-			}
-				
-				
-            $("#results").html("<div class='frameStyle'><div id='printBody'>" + str + "</div></div>");
-
-		}
-
-		function capital_letter(str) {
-            str = str.split(" ");
-            for (var i = 0, x = str.length; i < x; i++) {
-                str[i] = str[i][0].toUpperCase() + str[i].substr(1);
-            }
-            return str.join(" ");
-        }
-	</script>
- </body>
+                <footer class="site-footer">
+                    <p>
+                        <a href="https://valentin-schwind.de" target="_blank" rel="noopener noreferrer">Prof. Dr. Valentin Schwind</a>. University of Applied Sciences Frankfurt. No liability for external links, correctness, completeness and up-to-dateness of any content. Site visits might result in storing anonymized data (date, time, page viewed). Utilization at the user's own risk. Data can be stored on the computers to facilitate the user's website access. Contribute <a href="https://github.com/stars/valentin-schwind/lists/hci-user-studies-toolkit" target="_blank" rel="noopener noreferrer">here</a>.
+                    </p>
+                    <p>
+                        <strong>Find/cite the publication of the toolkit here:</strong><br />
+                        <code>
+                            Valentin Schwind, Stefan Resch, and Jessica Sehrt. 2023. The HCI User Studies Toolkit: Supporting Study Designing and Planning for Undergraduates and Novice Researchers in Human-Computer Interaction. In Extended Abstracts of the 2023 CHI Conference on Human Factors in Computing Systems (CHI EA '23), April 23-28, 2023, Hamburg, Germany. ACM, New York, NY, USA, 7 pages.
+                            <a href="https://doi.org/10.1145/3544549.3585890" target="_blank" rel="noopener noreferrer">https://doi.org/10.1145/3544549.3585890</a>
+                        </code>
+                    </p>
+                </footer>
+            </div>
+        </div>
+    </div>
+</body>
 </html>
