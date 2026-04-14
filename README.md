@@ -1,8 +1,17 @@
 # Automated Confirmation of User Study Participation
 
-This tool is designed to automate the participation forms of student users who need confirmation of their participation. Click <a href="https://hci-studies.org/participation-confirmation-generator/">here</a> to see our running example.
+This repository contains the browser-based Participation Confirmation Generator of the HCI User Studies Toolkit. It helps research teams generate confirmation letters for one or many study participants locally in the browser, including PDF preview, batch export, and print support.
 
-If you want to adequately <a href="https://github.com/valentin-schwind/automated-participation-confirmation/blob/master/HCIToolkit.bib"> cite</a> this work, and show us your amazing projects!
+Live tool:
+<a href="https://hci-studies.org/participation-confirmation-generator/">https://hci-studies.org/participation-confirmation-generator/</a>
+
+Source code:
+<a href="https://github.com/valentin-schwind/automated-participation-confirmation">https://github.com/valentin-schwind/automated-participation-confirmation</a>
+
+GitHub Pages setup:
+This repository includes a `.nojekyll` file so that directories such as `_css`, `_js`, `_img`, and `_fonts` are served correctly on GitHub Pages without Jekyll processing.
+
+If you want to adequately <a href="https://github.com/valentin-schwind/automated-participation-confirmation/blob/master/HCIToolkit.bib">cite</a> this work, and show us your amazing projects:
 
 ```
 @inproceedings{schwind2023a,
