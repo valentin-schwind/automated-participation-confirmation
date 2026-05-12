@@ -16,6 +16,8 @@ GitHub Actions deployment:
 
 If you want to adequately <a href="https://github.com/valentin-schwind/automated-participation-confirmation/blob/main/HCIToolkit.bib">cite</a> this work, and show us your amazing projects:
 
+The repository also includes <code>CITATION.cff</code> so GitHub can surface the citation metadata automatically.
+
 ```
 @inproceedings{schwind2023a,
 author = {Schwind, Valentin and Resch, Stefan and Sehrt, Jessica},

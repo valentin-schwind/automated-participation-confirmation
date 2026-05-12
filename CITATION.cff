@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the software and the associated publication."
+title: "Automated Confirmation of User Study Participation"
+authors:
+  - family-names: Schwind
+    given-names: Valentin
+repository-code: "https://github.com/valentin-schwind/automated-participation-confirmation"
+license: MIT
+preferred-citation:
+  type: conference-paper
+  authors:
+    - family-names: Schwind
+      given-names: Valentin
+    - family-names: Resch
+      given-names: Stefan
+    - family-names: Sehrt
+      given-names: Jessica
+  title: "The HCI User Studies Toolkit: Supporting Study Designing and Planning for Undergraduates and Novice Researchers in Human-Computer Interaction"
+  year: 2023
+  conference: "Extended Abstracts of the 2023 CHI Conference on Human Factors in Computing Systems (CHI EA '23)"
+  publisher: "Association for Computing Machinery"
+  address: "New York, NY, USA"
+  doi: "10.1145/3544549.3585890"
+  url: "https://doi.org/10.1145/3544549.3585890"
