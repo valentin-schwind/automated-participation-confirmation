@@ -46,27 +46,23 @@ jobs:
           done
 
           configured_path="${HCISTUDIES_REMOTE_PATH%/}"
+          expected_path="automated-participation-confirmation"
 
           if [ "${configured_path#*=}" != "$configured_path" ]; then
-            configured_path="${configured_path#*=}"
+            configured_path="${configured_path##*=}"
             configured_path="$(printf '%s' "$configured_path" | xargs)"
             echo "::warning::HCISTUDIES_REMOTE_PATH included an assignment-like prefix; normalized to '$configured_path'"
           fi
 
-          if [ -z "$configured_path" ]; then
-            echo "::error::HCISTUDIES_REMOTE_PATH is empty after normalization"
+          remote_path="${configured_path#/}"
+          remote_path="${remote_path##*/}"
+
+          if [ "$remote_path" != "$expected_path" ]; then
+            echo "::error::HCISTUDIES_REMOTE_PATH must resolve to '$expected_path' but is '$remote_path'"
             exit 1
           fi
 
-          remote_folder="${configured_path##*/}"
-          expected_folder="automated-participation-confirmation"
-
-          if [ "$remote_folder" != "$expected_folder" ]; then
-            echo "::error::HCISTUDIES_REMOTE_PATH must end with '$expected_folder' but resolves to '$remote_folder'"
-            exit 1
-          fi
-
-          echo "DEPLOY_REMOTE_PATH=$configured_path" >> "$GITHUB_ENV"
+          echo "DEPLOY_REMOTE_PATH=$remote_path" >> "$GITHUB_ENV"
 
       - name: Sync files to webserver
         run: |
