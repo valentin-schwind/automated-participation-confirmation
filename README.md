@@ -12,18 +12,9 @@ GitHub Pages setup:
 This repository includes a `.nojekyll` file so that directories such as `_css`, `_js`, `_img`, and `_fonts` are served correctly on GitHub Pages without Jekyll processing.
 
 GitHub Actions deployment:
-This repository includes a workflow at `.github/workflows/deploy-webserver.yml` that synchronizes the repository root to the configured webserver directory on every push to `main`.
+`.github/workflows/deploy-webserver.yml` syncs the project root on every push to `main`. Set `HCISTUDIES_HOST`, `HCISTUDIES_USER`, `HCISTUDIES_PASSWORD`, `HCISTUDIES_PORT`, and `HCISTUDIES_REMOTE_PATH` as repository secrets or variables; `HCISTUDIES_REMOTE_PATH` should end with `automated-participation-confirmation`.
 
-Required repository secrets or variables:
-- `HCISTUDIES_HOST`
-- `HCISTUDIES_USER`
-- `HCISTUDIES_PASSWORD`
-- `HCISTUDIES_PORT`
-- `HCISTUDIES_REMOTE_PATH`
-
-`HCISTUDIES_REMOTE_PATH` should point to the deployment directory on the server and end with `automated-participation-confirmation`.
-
-If you want to adequately <a href="https://github.com/valentin-schwind/automated-participation-confirmation/blob/master/HCIToolkit.bib">cite</a> this work, and show us your amazing projects:
+If you want to adequately <a href="https://github.com/valentin-schwind/automated-participation-confirmation/blob/main/HCIToolkit.bib">cite</a> this work, and show us your amazing projects:
 
 ```
 @inproceedings{schwind2023a,
